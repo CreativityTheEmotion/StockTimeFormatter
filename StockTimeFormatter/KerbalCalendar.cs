@@ -150,8 +150,8 @@ namespace System.Globalization.KerbalCalendar
 
 			int leapYearLoops = months / 223;
 			int leapYearLoopMonth = months - leapYearLoops * 223;
-			int year = leapYearLoops * 28 + leapYearLoopMonth / 7;
-			int month = leapYearLoopMonth % 7;
+			int year = leapYearLoops * 28 + leapYearLoopMonth / 8;
+			int month = leapYearLoopMonth % 8;
 
 			return new DateComponents(weekday, month, monthLoopDay + 1, year + 1);
 		}
@@ -185,7 +185,7 @@ namespace System.Globalization.KerbalCalendar
 		/// </returns>
 		public static string ToTimeString(TimeComponents t, bool includeSeconds)
 		{
-			return string.Format("{0:D1}", t.Hour) + ":" + string.Format("{0:D2}", t.Minute) + includeSeconds ? (":" + string.Format("{0:D2}", t.Second)) : "";
+			return string.Format("{0:D1}", t.Hour) + ":" + string.Format("{0:D2}", t.Minute) + (includeSeconds ? (":" + string.Format("{0:D2}", t.Second)) : "");
 		}
 
 		/// <summary>
@@ -213,7 +213,7 @@ namespace System.Globalization.KerbalCalendar
 		/// </returns>
 		public static string ToDateStringISO(DateComponents d)
 		{
-			return string.Format("{0:D4}", d.Year) + "-" + string.Format("{0:D2}", d.Month) + "-" + string.Format("{0:D2}", d.Day);
+			return string.Format("{0:D4}", d.Year) + "-" + string.Format("{0:D1}", d.Month+1) + "-" + string.Format("{0:D2}", d.Day);
 		}
 	}
 }

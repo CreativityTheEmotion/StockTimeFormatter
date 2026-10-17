@@ -50,7 +50,7 @@ namespace StockTimeFormatter
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1:D1}:{2:D2}:{3:D2}"
-                , days ? string.Format("Day {0} - ", d.Day+1) : ""
+                , days ? string.Format("Day {0} - ", d.Day) : ""
                 , t.Hour
                 , t.Minute
                 , t.Second
@@ -68,8 +68,8 @@ namespace StockTimeFormatter
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1}{2:D1}:{3:D2}:{4:D2}"
-                , d.Year == 0 ? string.Format("{0}y, ", d.Year) : ""
-                , d.Day == 0 ? string.Format("{0}d, ", d.Day) : ""
+                , d.Year != 0 ? string.Format("{0}y, ", d.Year) : ""
+                , d.Day != 0 ? string.Format("{0}d, ", d.Day) : ""
                 , t.Hour
                 , t.Minute
                 , t.Second
@@ -106,6 +106,10 @@ namespace StockTimeFormatter
             );
         }
 
+        public string PrintTime(double time, int valuesOfInterest, bool explicitPositive, bool logEnglish)
+        {
+            return PrintTime(time, valuesOfInterest, explicitPositive);
+        }
         
 	public string PrintTimeCompact(double time, bool explicitPositive)
         {
@@ -185,7 +189,7 @@ namespace StockTimeFormatter
             // Note: Printing out the difference in years isn't supported. Instead for levels 1 and 2 we will always print Days.
 
             StringBuilder sb = StringBuilderCache.Acquire(256);
-            if (d.Day > 0 && interestedPlaces >= 1)
+            if ((d.Day > 0) && interestedPlaces >= 1)
             {
                 sb.AppendFormat("{0}d", d.Day);
             }
@@ -230,7 +234,7 @@ namespace StockTimeFormatter
             return CalendarConverter.ToTimeString(CalendarConverter.ToTimeObject(t), includeSeconds);
         }
 
-        private string FormatDateTime(double t, bool includeSeconds)
+        private string FormatDateTime(double t, bool includeSeconds = false)
         {
             return FormatDate(t) + " " + FormatTime(t, includeSeconds);
         }
@@ -264,7 +268,7 @@ namespace StockTimeFormatter
             double epoch = GetEpoch();
             double target = epoch + time;
 
-            return CalendarConverter.ToDateStringISO(CalendarConverter.ToDateObject(target));
+            return CalendarConverter.ToDateStringISO(CalendarConverter.ToDateObject(target)) + " " + CalendarConverter.ToTimeString(CalendarConverter.ToTimeObject(target), includeSeconds);
         }
 
         public int Minute => 60;
