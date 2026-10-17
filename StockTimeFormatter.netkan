@@ -6,7 +6,10 @@
 	"$vref" : "#/ckan/ksp-avc",
 	"$kref" : "#/ckan/github/CreativityTheEmotion/StockTimeFormatter",
 	"license" : "CC-BY-NC-SA-4.0",
-	"author" : "KSP-RO Group",
+	"author" : {
+		"CreativityTheEmotion",
+		"KSP-RO Group"
+	},
 	"resources" : {
 		"homepage" : "https://CreativityTheEmotion/StockTimeFormatter",
 		"repository" : "https://CreativityTheEmotion/StockTimeFormatter",
