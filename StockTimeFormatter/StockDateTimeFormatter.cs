@@ -31,7 +31,7 @@ namespace StockTimeFormatter
             double span = target - epoch;
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
-            return string.Format("{0}{1}, {2}{3}, {4}{5}, {6}{7}"
+            return string.Format("{0} {1}, {2} {3}, {4} {5}, {6}{7}"
                 , d.Day, d.Day == 1 ? "day" : "days"
                 , t.Hour, t.Hour == 1 ? "hour" : "hours"
                 , t.Minute, t.Minute == 1 ? "minute" : "minutes"
@@ -49,7 +49,7 @@ namespace StockTimeFormatter
             double span = target - epoch;
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
-            return string.Format("{0}{1:D2}:{2:D2}:{3:D2}"
+            return string.Format("{0}{1:D1}:{2:D2}:{3:D2}"
                 , days ? string.Format("Day {0} - ", d.Day+1) : ""
                 , t.Hour
                 , t.Minute
@@ -67,7 +67,7 @@ namespace StockTimeFormatter
             double span = target - epoch;
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
-            return string.Format("{0}{1}{2:D2}:{3:D2}:{4:D2}"
+            return string.Format("{0}{1}{2:D1}:{3:D2}:{4:D2}"
                 , d.Year == 0 ? string.Format("{0}y, ", d.Year) : ""
                 , d.Day == 0 ? string.Format("{0}d, ", d.Day) : ""
                 , t.Hour
@@ -106,12 +106,8 @@ namespace StockTimeFormatter
             );
         }
 
-        public string PrintTime(double time, int valuesOfInterest, bool explicitPositive, bool logEnglish)
-        {
-            return PrintTime(time, valuesOfInterest, explicitPositive);
-        }
-
-        public string PrintTimeCompact(double time, bool explicitPositive)
+        
+	public string PrintTimeCompact(double time, bool explicitPositive)
         {
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
@@ -125,7 +121,7 @@ namespace StockTimeFormatter
             double span = target - epoch;
             CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
             CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
-            return string.Format("{0}{1}{2:D2}:{3:D2}:{4:D2}"
+            return string.Format("{0}{1}{2:D1}:{3:D2}:{4:D2}"
                 , isNegativeTime ? "- " : (explicitPositive ? "+ " : "")
                 , d.Day != 0 ? d.ToString() : ""
                 , t.Hour
@@ -229,14 +225,14 @@ namespace StockTimeFormatter
             return CalendarConverter.ToDateStringLocal(CalendarConverter.ToDateObject(t));
         }
 
-        private string FormatTime(double t)
+        private string FormatTime(double t, bool includeSeconds)
         {
-            return CalendarConverter.ToTimeString(CalendarConverter.ToTimeObject(t));
+            return CalendarConverter.ToTimeString(CalendarConverter.ToTimeObject(t), includeSeconds);
         }
 
-        private string FormatDateTime(double t)
+        private string FormatDateTime(double t, bool includeSeconds)
         {
-            return FormatDate(t) + " " + FormatTime(t);
+            return FormatDate(t) + " " + FormatTime(t, includeSeconds);
         }
 
         public string PrintDate(double time, bool includeTime, bool includeSeconds = false)
@@ -246,7 +242,7 @@ namespace StockTimeFormatter
 
             double epoch = GetEpoch();
             double target = epoch + time;
-            return includeTime ? FormatDateTime(target) : FormatDate(target);
+            return includeTime ? FormatDateTime(target, includeSeconds) : FormatDate(target);
         }
 
         public string PrintDateNew(double time, bool includeTime)
