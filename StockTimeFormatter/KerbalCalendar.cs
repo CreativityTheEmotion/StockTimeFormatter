@@ -191,7 +191,7 @@ namespace System.Globalization.KerbalCalendar
 		/// <summary>
 		/// Converts the date components into a long-form string.
 		/// </summary>
-		/// <param name="t">
+		/// <param name="d">
 		/// The date components, properly structured per the <c>DateComponents</c> class.
 		/// </param>
 		/// <returns>
@@ -205,7 +205,7 @@ namespace System.Globalization.KerbalCalendar
 		/// <summary>
 		/// Converts the date components into an ISO 8601-compatible string.
 		/// </summary>
-		/// <param name="t">
+		/// <param name="d">
 		/// The date components, properly structured per the <c>DateComponents</c> class.
 		/// </param>
 		/// <returns>
