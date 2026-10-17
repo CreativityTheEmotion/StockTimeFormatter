@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSSTimeFormatter", "RSSTimeFormatter\RSSTimeFormatter.csproj", "{74EB5EEE-52B3-4308-85CD-1EAE8580CAC0}"
+Project("{B289BBCA-0224-4517-8D7D-9D3692A12D01}") = "RSSTimeFormatter", "RSSTimeFormatter\RSSTimeFormatter.csproj", "{A20822D0-5C30-459E-8787-5B44B2600E7B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{37D512E6-D1A7-47A1-A91D-3C99479F9D39}"
+Project("{E77908B6-8727-448E-A09C-C1307CEE7C8D}") = "Solution Items", "Solution Items", "{152B2532-436A-4B33-9437-87E5E614506C}"
 	ProjectSection(SolutionItems) = preProject
 		GameData\RSSDateTime\localization.cfg = GameData\RSSDateTime\localization.cfg
 		GameData\RSSDateTime\unicode-license.txt = GameData\RSSDateTime\unicode-license.txt
@@ -17,16 +17,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74EB5EEE-52B3-4308-85CD-1EAE8580CAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74EB5EEE-52B3-4308-85CD-1EAE8580CAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74EB5EEE-52B3-4308-85CD-1EAE8580CAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74EB5EEE-52B3-4308-85CD-1EAE8580CAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B289BBCA-0224-4517-8D7D-9D3692A12D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B289BBCA-0224-4517-8D7D-9D3692A12D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B289BBCA-0224-4517-8D7D-9D3692A12D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B289BBCA-0224-4517-8D7D-9D3692A12D01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8A82D3FB-7669-437B-8261-E56CFC22AA64}
+		SolutionGuid = {1FDFDDEA-EBC5-4326-8667-E31D3D46A15B}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

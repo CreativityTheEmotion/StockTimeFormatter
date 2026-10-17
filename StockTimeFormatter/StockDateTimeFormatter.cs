@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Globalization;
+using System.Globalization.KerbalCalendar;
 using System.Text;
 
-namespace RSSTimeFormatter
+namespace StockTimeFormatter
 {
-    public class RealDateTimeFormatter : IDateTimeFormatter
+    public class StockDateTimeFormatter : IDateTimeFormatter
     {
-        private readonly string dateFormat;
-        private readonly string timeFormat;
-        private readonly string dateTimeFormat;
-        private readonly DateTime epoch;
+        private readonly double epoch;
         private readonly CultureInfo culture;
 
-        public RealDateTimeFormatter()
+        public StockDateTimeFormatter()
         {
         }
 
-        public RealDateTimeFormatter(string dateFormat, string timeFormat, string dateTimeFormat, DateTime epoch)
+        public StockDateTimeFormatter(double epoch)
         {
-            this.dateFormat = "{0:" + dateFormat + "}";
-            this.timeFormat = "{0:" + timeFormat + "}";
-            this.dateTimeFormat = dateTimeFormat;
             this.epoch = epoch;
             culture = new CultureInfo(KSP.Localization.Localizer.CurrentLanguage);
         }
@@ -31,14 +26,16 @@ namespace RSSTimeFormatter
             // short-circuit if invalid time passed
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1}, {2}{3}, {4}{5}, {6}{7}"
-                , span.Days, span.Days == 1 ? "day" : "days"
-                , span.Hours, span.Hours == 1 ? "hour" : "hours"
-                , span.Minutes, span.Minutes == 1 ? "minute" : "minutes"
-                , span.Seconds, span.Seconds == 1 ? "second" : "seconds"
+                , d.Day, d.Day == 1 ? "day" : "days"
+                , t.Hour, t.Hour == 1 ? "hour" : "hours"
+                , t.Minute, t.Minute == 1 ? "minute" : "minutes"
+                , t.Second, t.Second == 1 ? "second" : "seconds"
             );
         }
 
@@ -47,14 +44,16 @@ namespace RSSTimeFormatter
             // short-circuit if invalid time passed
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1:D2}:{2:D2}:{3:D2}"
-                , days ? string.Format("Day {0} - ", span.Days) : ""
-                , span.Hours
-                , span.Minutes
-                , span.Seconds
+                , days ? string.Format("Day {0} - ", d.Day+1) : ""
+                , t.Hour
+                , t.Minute
+                , t.Second
             );
         }
 
@@ -63,18 +62,17 @@ namespace RSSTimeFormatter
             // short-circuit if invalid time passed
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
-            int dNum = span.Days;
-            int yNum = dNum / 365;
-            int subDays = dNum - yNum * 365;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1}{2:D2}:{3:D2}:{4:D2}"
-                , years ? string.Format("{0}y, ", yNum) : ""
-                , days ? string.Format("{0}d, ", ((years && subDays != 0) ? subDays : dNum)) : ""
-                , span.Hours
-                , span.Minutes
-                , span.Seconds
+                , d.Year == 0 ? string.Format("{0}y, ", d.Year) : ""
+                , d.Day == 0 ? string.Format("{0}d, ", d.Day) : ""
+                , t.Hour
+                , t.Minute
+                , t.Second
             );
         }
 
@@ -94,15 +92,17 @@ namespace RSSTimeFormatter
                 time = Math.Abs(time);
                 isNegativeTime = true;
             }
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1}{2}{3}{4}"
                 , isNegativeTime ? "- " : (explicitPositive ? "+ " : "")
-                , (valuesOfInterest >= 3 && span.Days != 0) ? string.Format("{0}d, ", span.Days) : ""
-                , (valuesOfInterest >= 2 && span.Hours != 0) ? string.Format("{0}h, ", span.Hours) : ""
-                , (valuesOfInterest >= 1 && span.Minutes != 0) ? string.Format("{0}m, ", span.Minutes) : ""
-                , valuesOfInterest >= 0 ? string.Format("{0}s", span.Seconds) : ""
+                , (valuesOfInterest >= 3 && d.Day != 0) ? string.Format("{0}d, ", d.Day) : ""
+                , (valuesOfInterest >= 2 && t.Hour != 0) ? string.Format("{0}h, ", t.Hour) : ""
+                , (valuesOfInterest >= 1 && t.Minute != 0) ? string.Format("{0}m, ", t.Minute) : ""
+                , valuesOfInterest >= 0 ? string.Format("{0}s", t.Second) : ""
             );
         }
 
@@ -120,15 +120,17 @@ namespace RSSTimeFormatter
                 time = Math.Abs(time);
                 isNegativeTime = true;
             }
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
             return string.Format("{0}{1}{2:D2}:{3:D2}:{4:D2}"
                 , isNegativeTime ? "- " : (explicitPositive ? "+ " : "")
-                , span.Days != 0 ? span.Days.ToString() : ""
-                , span.Hours
-                , span.Minutes
-                , span.Seconds
+                , d.Day != 0 ? d.ToString() : ""
+                , t.Hour
+                , t.Minute
+                , t.Second
             );
         }
 
@@ -139,15 +141,17 @@ namespace RSSTimeFormatter
             if (time < 0 && useAbs)
                 time = Math.Abs(time);
 
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
 
             string delta = string.Format("{0}{1}{2}{3}"
-                , span.Days > 0 ? string.Format("{0} {1} ", span.Days, span.Days == 1 ? "day" : "days") : ""
-                , span.Hours > 0 && includeTime ? string.Format("{0} {1} ", span.Hours, span.Hours == 1 ? "hour" : "hours") : ""
-                , span.Minutes > 0 && includeTime ? string.Format("{0} {1} ", span.Minutes, span.Minutes == 1 ? "minute" : "minutes") : ""
-                , span.Seconds > 0 && includeTime && includeSeconds ? string.Format("{0} {1}", span.Seconds, span.Seconds == 1 ? "second" : "seconds") : ""
+                , d.Day > 0 ? string.Format("{0} {1} ", d.Day, d.Day == 1 ? "day" : "days") : ""
+                , t.Hour > 0 && includeTime ? string.Format("{0} {1} ", t.Hour, t.Hour == 1 ? "hour" : "hours") : ""
+                , t.Minute > 0 && includeTime ? string.Format("{0} {1} ", t.Minute, t.Minute == 1 ? "minute" : "minutes") : ""
+                , t.Second > 0 && includeTime && includeSeconds ? string.Format("{0} {1}", t.Second, t.Second == 1 ? "second" : "seconds") : ""
             );
 
             if (delta.Length == 0)
@@ -170,9 +174,11 @@ namespace RSSTimeFormatter
             if (time == 0d)
                 return string.Format("0{0}", includeTime ? (includeSeconds ? "s" : "m") : "d");
 
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
-            TimeSpan span = target - epoch;
+            double epoch = GetEpoch();
+            double target = epoch + time;
+            double span = target - epoch;
+            CalendarConverter.TimeComponents t = CalendarConverter.ToTimeObject(span);
+            CalendarConverter.DateComponentsSimple d = CalendarConverter.ToDateObjectSimple(span);
 
             // interestedPlaces cheat sheet:
             // 5 - seconds
@@ -183,32 +189,32 @@ namespace RSSTimeFormatter
             // Note: Printing out the difference in years isn't supported. Instead for levels 1 and 2 we will always print Days.
 
             StringBuilder sb = StringBuilderCache.Acquire(256);
-            if (span.Days > 0 && interestedPlaces >= 1)
+            if (d.Day > 0 && interestedPlaces >= 1)
             {
-                sb.AppendFormat("{0}d", span.Days);
+                sb.AppendFormat("{0}d", d.Day);
             }
 
             if (includeTime)
             {
-                if (span.Hours > 0 && interestedPlaces >= 3)
+                if (t.Hour > 0 && interestedPlaces >= 3)
                 {
                     if (sb.Length != 0)
                         sb.Append(" ");
-                    sb.AppendFormat("{0}h", span.Hours);
+                    sb.AppendFormat("{0}h", t.Hour);
                 }
 
-                if (span.Minutes > 0 && interestedPlaces >= 4)
+                if (t.Minute > 0 && interestedPlaces >= 4)
                 {
                     if (sb.Length != 0)
                         sb.Append(" ");
-                    sb.AppendFormat("{0}m", span.Minutes);
+                    sb.AppendFormat("{0}m", t.Minute);
                 }
 
-                if (includeSeconds && span.Seconds > 0 && interestedPlaces >= 5)
+                if (includeSeconds && t.Second > 0 && interestedPlaces >= 5)
                 {
                     if (sb.Length != 0)
                         sb.Append(" ");
-                    sb.AppendFormat("{0}s", span.Seconds);
+                    sb.AppendFormat("{0}s", t.Second);
                 }
             }
 
@@ -218,19 +224,19 @@ namespace RSSTimeFormatter
             return sb.ToStringAndRelease();
         }
 
-        private string FormatDate(DateTime t)
+        private string FormatDate(double t)
         {
-            return string.Format(culture, dateFormat, t);
+            return CalendarConverter.ToDateStringLocal(CalendarConverter.ToDateObject(t));
         }
 
-        private string FormatTime(DateTime t)
+        private string FormatTime(double t)
         {
-            return string.Format(culture, timeFormat, t);
+            return CalendarConverter.ToTimeString(CalendarConverter.ToTimeObject(t));
         }
 
-        private string FormatDateTime(DateTime t)
+        private string FormatDateTime(double t)
         {
-            return string.Format(culture, dateTimeFormat, FormatTime(t), FormatDate(t));
+            return FormatDate(t) + " " + FormatTime(t);
         }
 
         public string PrintDate(double time, bool includeTime, bool includeSeconds = false)
@@ -238,8 +244,8 @@ namespace RSSTimeFormatter
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
 
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
+            double epoch = GetEpoch();
+            double target = epoch + time;
             return includeTime ? FormatDateTime(target) : FormatDate(target);
         }
 
@@ -248,8 +254,8 @@ namespace RSSTimeFormatter
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
 
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
+            double epoch = GetEpoch();
+            double target = epoch + time;
             return includeTime ? FormatDateTime(target) : FormatDate(target);
         }
 
@@ -259,22 +265,16 @@ namespace RSSTimeFormatter
             if (IsInvalidTime(time))
                 return InvalidTimeStr(time);
 
-            DateTime epoch = GetEpoch();
-            DateTime target = epoch.AddSeconds(time);
+            double epoch = GetEpoch();
+            double target = epoch + time;
 
-            // TODO(egg): This format should probably be configurable too, even
-            // if we keep this default.
-            return string.Format("{0:yyyy-MM-dd} {1}{2}" // Always use ISO-8601 (stock is yyy-dd).
-                , target
-                , includeTime ? string.Format("{0:D2}:{1:D2}", target.Hour, target.Minute) : ""
-                , includeTime && includeSeconds ? string.Format(":{0:D2}", target.Second) : ""
-            );
+            return CalendarConverter.ToDateStringISO(CalendarConverter.ToDateObject(target));
         }
 
         public int Minute => 60;
         public int Hour => 3600;
-        public int Day => 86400;
-        public int Year => 31536000;
+        public int Day => 21600;
+        public int Year => 9201600;
         #endregion
 
         protected bool IsInvalidTime(double time)
@@ -296,12 +296,7 @@ namespace RSSTimeFormatter
             return null;
         }
 
-        protected DateTime DateFromUT(double time)
-        {
-            return GetEpoch().AddSeconds(time);
-        }
-
-        protected DateTime GetEpoch()
+        protected double GetEpoch()
         {
             return epoch;
         }

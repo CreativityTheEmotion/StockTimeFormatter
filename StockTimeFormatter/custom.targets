@@ -1,9 +1,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 <ItemGroup>
-  <FilesToCopy Include="$(OutputPath)\RSSTimeFormatter.dll" />
+  <FilesToCopy Include="$(OutputPath)\StockTimeFormatter.dll" />
 </ItemGroup>
 <Target Name="AfterBuild">
   <Message Text="This is the AfterBuild target" Importance="normal"/>
-  <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\GameData\RSSDateTime\Plugins\" />
+  <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\GameData\CreativityTheEmotion\Plugins\" />
 </Target>
 </Project>

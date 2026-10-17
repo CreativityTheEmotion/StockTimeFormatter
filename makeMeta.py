@@ -28,9 +28,9 @@ patch = int(version.split(".")[2])
 build = int(version.split(".")[3])
 # create AVC .version file
 avc = {
-	"NAME" : "RSSDateTime",
-	"DOWNLOAD" : "https://github.com/KSP-RO/RSSTimeFormatter/releases/download/{}/RSSDateTime-{}.zip".format(args.tag[0],args.tag[0]),
-	"CHANGE_LOG_URL" : "https://raw.githubusercontent.com/KSP-RO/RSSTimeFormatter/master/RELEASE_NOTES_RAW.txt",
+	"NAME" : "StockDateTime",
+	"DOWNLOAD" : "https://github.com/CreativityTheEmotion/StockTimeFormatter/releases/download/{}/StockDateTime-{}.zip".format(args.tag[0],args.tag[0]),
+	"CHANGE_LOG_URL" : "https://raw.githubusercontent.com/CreativityTheEmotion/StockTimeFormatter/master/RELEASE_NOTES_RAW.txt",
 	"VERSION" :
 	{
 		"MAJOR" : major,
@@ -55,5 +55,5 @@ avc = {
 		"PATCH": "99"
 	}
 }
-with open("RSSDateTime.version", "w") as f:
+with open("StockDateTime.version", "w") as f:
 	f.write(json.dumps(avc, indent=4))
