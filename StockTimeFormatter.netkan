@@ -11,9 +11,9 @@
 		"KSP-RO Group"
 	},
 	"resources" : {
-		"homepage" : "https://CreativityTheEmotion/StockTimeFormatter",
-		"repository" : "https://CreativityTheEmotion/StockTimeFormatter",
-		"bugtracker" : "https://CreativityTheEmotion/StockTimeFormatter/issues"
+		"homepage" : "https://github.com/CreativityTheEmotion/StockTimeFormatter",
+		"repository" : "https://github.com/CreativityTheEmotion/StockTimeFormatter",
+		"bugtracker" : "https://github.com/CreativityTheEmotion/StockTimeFormatter/issues"
 	},
 	"install" : [
         {
