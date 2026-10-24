@@ -47,11 +47,11 @@ namespace System.Globalization.KerbalCalendar
 		/// <param name="Second">The second component as a integer.</param>
 		public class TimeComponents
 		{
-			public int Hour { get; set; }
-			public int Minute { get; set; }
-			public int Second { get; set; }
+			public Int64 Hour { get; set; }
+			public Int64 Minute { get; set; }
+			public Int64 Second { get; set; }
 			
-			public TimeComponents (int hour, int minute, int second)
+			public TimeComponents (Int64 hour, Int64 minute, Int64 second)
 			{
 				Hour = hour;
 				Minute = minute;
@@ -68,12 +68,12 @@ namespace System.Globalization.KerbalCalendar
 		/// <param name="Year">The numeric year value, starting at 1.</param>
 		public struct DateComponents
 		{
-			public int Weekday { get; set; }
-			public int Month { get; set; }
-			public int Day { get; set; }
-			public int Year { get; set; }
+			public Int64 Weekday { get; set; }
+			public Int64 Month { get; set; }
+			public Int64 Day { get; set; }
+			public Int64 Year { get; set; }
 			
-			public DateComponents (int weekday, int month, int day, int year)
+			public DateComponents (Int64 weekday, Int64 month, Int64 day, Int64 year)
 			{
 				Weekday = weekday;
 				Month = month;
@@ -89,10 +89,10 @@ namespace System.Globalization.KerbalCalendar
 		/// <param name="Year">The numeric year value, starting at 0.</param>
 		public struct DateComponentsSimple
 		{
-			public int Day { get; set; }
-			public int Year { get; set; }
+			public Int64 Day { get; set; }
+			public Int64 Year { get; set; }
 			
-			public DateComponentsSimple (int day, int year)
+			public DateComponentsSimple (Int64 day, Int64 year)
 			{
 				Day = day;
 				Year = year;
@@ -111,13 +111,13 @@ namespace System.Globalization.KerbalCalendar
 		/// </returns>
 		public static TimeComponents ToTimeObject(double t)
 		{
-			int seconds = (int)Math.Floor(t);
-			int minutes = seconds / 60;
-			int second = seconds - minutes * 60;
-			int hours = minutes / 60;
-			int minute = minutes - hours * 60;
-			int days = hours / 6;
-			int hour = hours - days * 6;
+			Int64 seconds = (Int64)Math.Floor(t);
+			Int64 minutes = seconds / 60;
+			Int64 second = seconds - minutes * 60;
+			Int64 hours = minutes / 60;
+			Int64 minute = minutes - hours * 60;
+			Int64 days = hours / 6;
+			Int64 hour = hours - days * 6;
 
 			return new TimeComponents(hour, minute, second);
 		}
@@ -133,14 +133,14 @@ namespace System.Globalization.KerbalCalendar
 		/// </returns>
 		public static DateComponents ToDateObject(double t)
 		{
-			int days = (int)Math.Floor(t / 21600);
-			int weeks = days / 13;
-			int weekday = days - weeks * 13;
+			Int64 days = (Int64)Math.Floor(t / 21600);
+			Int64 weeks = days / 13;
+			Int64 weekday = days - weeks * 13;
 			weekday = weekday == 12 ? 6 : weekday % 6;
 
-			int monthLoops = days / 107;
-			int months = monthLoops * 2;
-			int monthLoopDay = days - monthLoops * 107;
+			Int64 monthLoops = days / 107;
+			Int64 months = monthLoops * 2;
+			Int64 monthLoopDay = days - monthLoops * 107;
 
 			if (monthLoopDay >= 53)
 			{
@@ -148,10 +148,10 @@ namespace System.Globalization.KerbalCalendar
 				months++;
 			}
 
-			int leapYearLoops = months / 223;
-			int leapYearLoopMonth = months - leapYearLoops * 223;
-			int year = leapYearLoops * 28 + leapYearLoopMonth / 8;
-			int month = leapYearLoopMonth % 8;
+			Int64 leapYearLoops = months / 223;
+			Int64 leapYearLoopMonth = months - leapYearLoops * 223;
+			Int64 year = leapYearLoops * 28 + leapYearLoopMonth / 8;
+			Int64 month = leapYearLoopMonth % 8;
 
 			return new DateComponents(weekday, month, monthLoopDay + 1, year + 1);
 		}
@@ -168,9 +168,9 @@ namespace System.Globalization.KerbalCalendar
 		/// </returns>
 		public static DateComponentsSimple ToDateObjectSimple(double t)
 		{
-			int days = (int)Math.Floor(t / 21600);
-			int day = days % 426;
-			int year = days / 426;
+			Int64 days = (Int64)Math.Floor(t / 21600);
+			Int64 day = days % 426;
+			Int64 year = days / 426;
 			return new DateComponentsSimple(day, year);
 		}
 

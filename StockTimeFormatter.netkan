@@ -1,5 +1,5 @@
 {
-	"spec_version" : "v1.0",
+	"spec_version" : "v1.0.2",
 	"name" : "Stock DateTime Formatter",
 	"abstract" : "Believe it or not, awkward formats like 'Year 5, Day 200' frustrate stock players just as much as RSS players. To this end, this is a mod that introduces a believable con-calendar for Kerbin and makes the game make use of it.",
 	"identifier" : "StockDateTimeFormatter",
